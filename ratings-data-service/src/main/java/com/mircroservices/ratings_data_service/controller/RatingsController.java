@@ -1,6 +1,7 @@
 package com.mircroservices.ratings_data_service.controller;
 
 import com.mircroservices.ratings_data_service.model.Rating;
+import com.mircroservices.ratings_data_service.model.UserRating;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/ratings")
-public class MovieInfoController {
+public class RatingsController {
 
     @GetMapping("/{movieId}")
     public Rating getRatings(@PathVariable("movieId") String movieId) {
@@ -18,10 +19,10 @@ public class MovieInfoController {
     }
 
     @GetMapping("/users/{userId}")
-    public List<Rating> getUserRatings(@PathVariable("userId") String userId) {
-        return List.of(
+    public UserRating getUserRatings(@PathVariable("userId") String userId) {
+        return new UserRating(List.of(
                 new Rating("movie 01", 6),
                 new Rating("movie 02", 5)
-        );
+        ));
     }
 }

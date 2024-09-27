@@ -3,6 +3,7 @@ package com.mircroservices.movie_catalog_service.controller;
 import com.mircroservices.movie_catalog_service.model.CatalogItem;
 import com.mircroservices.movie_catalog_service.model.Movie;
 import com.mircroservices.movie_catalog_service.model.Rating;
+import com.mircroservices.movie_catalog_service.model.UserRating;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,10 +31,7 @@ public class MovieCatalogController {
     @GetMapping("/{userId}")
     public List<CatalogItem> getCatalogItems(@PathVariable("userId") String userId) {
 
-        List<Rating> ratings = List.of(
-                new Rating("01", 5),
-                new Rating("02", 4)
-        );
+        List<Rating> ratings = restTemplate.getForObject("http://localhost:8083/ratings/users/" + userId, UserRating.class).getUserRatings();
 
         return ratings.stream()
                 .map(rating -> {
