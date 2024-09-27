@@ -12,8 +12,16 @@ import java.util.List;
 @RequestMapping("/ratings")
 public class MovieInfoController {
 
-    @GetMapping("/{userId}")
-    public Rating getRatings(@PathVariable("userId") String userId) {
-        return new Rating(userId, 6);
+    @GetMapping("/{movieId}")
+    public Rating getRatings(@PathVariable("movieId") String movieId) {
+        return new Rating(movieId, 6);
+    }
+
+    @GetMapping("/users/{userId}")
+    public List<Rating> getUserRatings(@PathVariable("userId") String userId) {
+        return List.of(
+                new Rating("movie 01", 6),
+                new Rating("movie 02", 5)
+        );
     }
 }
