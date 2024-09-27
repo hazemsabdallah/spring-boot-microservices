@@ -31,11 +31,11 @@ public class MovieCatalogController {
     @GetMapping("/{userId}")
     public List<CatalogItem> getCatalogItems(@PathVariable("userId") String userId) {
 
-        List<Rating> ratings = restTemplate.getForObject("http://localhost:8083/ratings/users/" + userId, UserRating.class).getUserRatings();
+        List<Rating> ratings = restTemplate.getForObject("http://ratings-data-service/ratings/users/" + userId, UserRating.class).getUserRatings();
 
         return ratings.stream()
                 .map(rating -> {
-                    Movie movie = restTemplate.getForObject("http://localhost:8082/movies/" + rating.getMovieId(), Movie.class);
+                    Movie movie = restTemplate.getForObject("http://movie-info-service/movies/" + rating.getMovieId(), Movie.class);
 
 //                    // trying out webclient reactive
 //                    Movie movie = webClientBuilder.build()
