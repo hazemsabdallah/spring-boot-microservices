@@ -4,6 +4,7 @@ import com.mircroservices.movie_catalog_service.model.CatalogItem;
 import com.mircroservices.movie_catalog_service.model.Movie;
 import com.mircroservices.movie_catalog_service.model.Rating;
 import com.mircroservices.movie_catalog_service.model.UserRating;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +30,7 @@ public class MovieCatalogController {
     }
 
     @GetMapping("/{userId}")
+    @CircuitBreaker(name = "catalogCircuitBreaker", fallbackMethod = "getFallbackCatalogItems")
     public List<CatalogItem> getCatalogItems(@PathVariable("userId") String userId) {
 
         List<Rating> ratings = restTemplate.getForObject("http://ratings-data-service/ratings/users/" + userId, UserRating.class).getUserRatings();
@@ -48,5 +50,9 @@ public class MovieCatalogController {
                     return new CatalogItem(movie.getName(), movie.getDescription(), rating.getRating());
                 })
                 .toList();
+    }
+
+    public List<CatalogItem> getFallbackCatalogItems(String userId, Throwable throwable) {
+        return List.of(new CatalogItem("none", "none", 0));
     }
 }
