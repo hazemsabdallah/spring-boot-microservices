@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: spring-boot-config
+
+my:
+  greeting: Hello
+  greeting.list: Hello,Hi,Aloha
+  map: "{key01: 'value01', key02: 'value02', key03: 'value03'}"
+
+db:
+  connection: "{key01: 'value01', key02: 'value02', key03: 'value03'}"
+  host: 127.0.0.1
+  port: 1200
+
+# actuator configs
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    configprops:
+      show-values: always
