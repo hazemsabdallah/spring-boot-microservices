@@ -1,5 +1,6 @@
 package com.mircroservices.spring_boot_config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,8 +20,11 @@ public class GreetingController {
     @Value("#{${my.map}}")
     private Map<String, String> map;
 
+    @Autowired
+    private DbSettings dbSettings;
+
     @GetMapping(value = "/greeting")
     public String greeting() {
-        return greeting + " " + greetingsList + " " + map;
+        return greeting + " " + greetingsList + " " + map + " " + dbSettings;
     }
 }
